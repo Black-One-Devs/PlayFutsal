@@ -6,12 +6,13 @@ import { NavigationContainer } from "@react-navigation/native";
 import * as SplashScreen from "expo-splash-screen";
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import PhoneAuthWithOtp from './src/screens/PhoneAuthWithOtp';
+import { AppProvider } from './context/AppContext';
 
 SplashScreen.preventAutoHideAsync();
 const Stack = createStackNavigator();
 
 
-const App = () => {
+const AppContent = () => {
     const [loaded, error] = useFonts({
         exo2Regular: require("./assets/fonts/Exo2-Regular.ttf"),
         exo2SemiBold: require("./assets/fonts/Exo2-SemiBold.ttf"),
@@ -30,17 +31,26 @@ const App = () => {
         return null;
     }
     return (
-
         <SafeAreaProvider>
             <NavigationContainer>
-                <Stack.Navigator screenOptions={{headerShown:false}}>
-                    <Stack.Screen name='PhoneAuthWithOtp' component={PhoneAuthWithOtp}/>
+                <Stack.Navigator screenOptions={{ headerShown: false }}>
+                    <Stack.Screen name='PhoneAuthWithOtp' component={PhoneAuthWithOtp} />
                 </Stack.Navigator>
             </NavigationContainer>
         </SafeAreaProvider>
+    )
+}
 
+
+
+const App = () => {
+    return (
+        <AppProvider>
+            <AppContent />
+        </AppProvider>
     )
 }
 
 export default App
+
 
