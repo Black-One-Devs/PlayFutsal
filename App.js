@@ -1,10 +1,14 @@
-import { StyleSheet, Text, View } from 'react-native'
+
 import React, { useEffect } from 'react'
 import { useFonts } from 'expo-font'
+import { createStackNavigator } from "@react-navigation/stack";
+import { NavigationContainer } from "@react-navigation/native";
 import * as SplashScreen from "expo-splash-screen";
-import PhoneAuth from './src/screens/PhoneAuth';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import PhoneAuthWithOtp from './src/screens/PhoneAuthWithOtp';
 
 SplashScreen.preventAutoHideAsync();
+const Stack = createStackNavigator();
 
 
 const App = () => {
@@ -26,7 +30,15 @@ const App = () => {
         return null;
     }
     return (
-        <PhoneAuth />
+
+        <SafeAreaProvider>
+            <NavigationContainer>
+                <Stack.Navigator screenOptions={{headerShown:false}}>
+                    <Stack.Screen name='PhoneAuthWithOtp' component={PhoneAuthWithOtp}/>
+                </Stack.Navigator>
+            </NavigationContainer>
+        </SafeAreaProvider>
+
     )
 }
 

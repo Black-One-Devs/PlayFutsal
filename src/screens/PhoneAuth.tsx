@@ -5,8 +5,6 @@ import {
     StyleSheet,
     Text,
     View,
-    TextInput,
-    TouchableOpacity,
     KeyboardAvoidingView,
     Platform,
     Keyboard,
@@ -16,14 +14,17 @@ import InputField from "../components/authentication/InputField"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { wp, hp, fontSize } from "../../responsive/responsive"
 
+interface PhoneAuthProps {
+    handleContinue: (phone: string) => void;
+}
 
-const PhoneAuth = () => {
+const PhoneAuth = ({ handleContinue }: PhoneAuthProps) => {
     const [isKeyboardVisible, setKeyboardVisible] = useState(false)
+    const [phoneNumber, setPhoneNumber] = useState("")
 
-    const handleContinue = () => {
-        // Handle phone authentication logic here
+    const handlePhoneSubmit = () => {
         Keyboard.dismiss()
-        // console.log("Phone number submitted:", phoneNumber) //phone number  context ma hanu parxa
+        handleContinue(phoneNumber)
     }
 
     // Add keyboard listeners
@@ -59,11 +60,14 @@ const PhoneAuth = () => {
                         <Text style={styles.title}>Let's get you started.</Text>
                         <Text style={styles.subtitle}>Enter your phone number to continue.</Text>
                     </View>
-                    <InputField />
+                    <InputField
+                        value={phoneNumber}
+                        onChangeText={setPhoneNumber}
+                    />
 
                     <Button
                         title='Continue'
-                        handleContinue={handleContinue}
+                        handleContinue={handlePhoneSubmit}
                     />
 
                 </View>

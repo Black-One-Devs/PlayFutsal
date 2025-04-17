@@ -1,9 +1,13 @@
 import { StyleSheet, Text, TextInput, View } from 'react-native'
-import React, { useState } from 'react'
+import React from 'react'
 import { wp, hp, fontSize } from '../../../responsive/responsive'
 
-const InputField = () => {
-    const [phoneNumber, setPhoneNumber] = useState("")
+interface InputFieldProps {
+    value: string;
+    onChangeText: (text: string) => void;
+}
+
+const InputField = ({ value, onChangeText }: InputFieldProps) => {
     return (
         <View style={styles.inputContainer}>
             <View style={styles.countryCodeContainer}>
@@ -13,8 +17,8 @@ const InputField = () => {
                 style={styles.input}
                 placeholder="Enter your phone number"
                 keyboardType="phone-pad"
-                value={phoneNumber}
-                onChangeText={setPhoneNumber}
+                value={value}
+                onChangeText={onChangeText}
                 selectionColor={'black'}
             />
         </View>
