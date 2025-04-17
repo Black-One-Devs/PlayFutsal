@@ -9,11 +9,13 @@ import {
     TouchableOpacity,
     KeyboardAvoidingView,
     Platform,
-    SafeAreaView,
     Keyboard,
 } from "react-native"
 import Button from "../components/authentication/Button"
 import InputField from "../components/authentication/InputField"
+import { SafeAreaView } from "react-native-safe-area-context"
+import { wp, hp, fontSize } from "../../responsive/responsive"
+
 
 const PhoneAuth = () => {
     const [isKeyboardVisible, setKeyboardVisible] = useState(false)
@@ -21,7 +23,7 @@ const PhoneAuth = () => {
     const handleContinue = () => {
         // Handle phone authentication logic here
         Keyboard.dismiss()
-        // console.log("Phone number submitted:", phoneNumber) //yeslai context ma hanu parxa
+        // console.log("Phone number submitted:", phoneNumber) //phone number  context ma hanu parxa
     }
 
     // Add keyboard listeners
@@ -50,7 +52,7 @@ const PhoneAuth = () => {
             <KeyboardAvoidingView
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
                 style={styles.keyboardAvoidingView}
-                keyboardVerticalOffset={Platform.OS === "ios" ? 10 : 0}
+                keyboardVerticalOffset={Platform.OS === "ios" ? hp(10) : 0}
             >
                 <View style={styles.contentContainer}>
                     <View style={styles.headerContainer}>
@@ -58,7 +60,12 @@ const PhoneAuth = () => {
                         <Text style={styles.subtitle}>Enter your phone number to continue.</Text>
                     </View>
                     <InputField />
-                    <Button title='Continue' handleContinue={handleContinue} />
+
+                    <Button
+                        title='Continue'
+                        handleContinue={handleContinue}
+                    />
+
                 </View>
             </KeyboardAvoidingView>
 
@@ -83,32 +90,32 @@ const styles = StyleSheet.create({
     },
     contentContainer: {
         flex: 1,
-        paddingHorizontal: 20,
+        paddingHorizontal: wp(20),
         justifyContent: "flex-start",
-        paddingTop: 40,
+        marginTop: hp(60)
     },
     headerContainer: {
-        marginBottom: 20,
+        marginBottom: hp(20),
     },
     title: {
-        fontSize: 24,
+        fontSize: fontSize(24),
         color: "#0F172A",
-        marginBottom: 8,
+        marginBottom: hp(8),
         fontFamily: 'exo2Bold'
     },
     subtitle: {
-        fontSize: 16,
+        fontSize: fontSize(16),
         color: "#334155",
         fontFamily: 'exo2SemiBold'
     },
     footerContainer: {
-        marginBottom: 20,
+        marginBottom: hp(20),
     },
     footerText: {
-        fontSize: 12,
+        fontSize: fontSize(12),
         color: "#64748B",
         textAlign: "center",
-        lineHeight: 18,
+        lineHeight: hp(18),
     },
     linkText: {
         color: "#64748B",
