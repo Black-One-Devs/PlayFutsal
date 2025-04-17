@@ -1,20 +1,34 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native'
+import React, { useEffect } from 'react'
+import { useFonts } from 'expo-font'
+import * as SplashScreen from "expo-splash-screen";
+import PhoneAuth from './src/screens/PhoneAuth';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+SplashScreen.preventAutoHideAsync();
+
+
+const App = () => {
+    const [loaded, error] = useFonts({
+        exo2Regular: require("./assets/fonts/Exo2-Regular.ttf"),
+        exo2SemiBold: require("./assets/fonts/Exo2-SemiBold.ttf"),
+        exo2Bold: require("./assets/fonts/Exo2-Bold.ttf"),
+
+    });
+    useEffect(() => {
+        if (loaded || error) {
+            setTimeout(async () => {
+                await SplashScreen.hideAsync();
+            }, 2000);
+        }
+    }, [loaded, error]);
+
+    if (!loaded && !error) {
+        return null;
+    }
+    return (
+        <PhoneAuth />
+    )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App
+
