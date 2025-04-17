@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#CBD5E1",
         borderRadius: wp(8),
-        marginVertical: hp(20),
         height: hp(50),
     },
     countryCodeContainer: {

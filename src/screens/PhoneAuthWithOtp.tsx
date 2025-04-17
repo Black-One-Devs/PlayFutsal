@@ -1,23 +1,40 @@
 "use client"
 
 import type React from "react"
-import { useState, useCallback } from "react"
-import { View, StyleSheet, Alert } from "react-native"
+import { useState, useCallback, useRef, useEffect } from "react"
+import { View, StyleSheet, Alert, Animated } from "react-native"
 import PhoneAuth from "./PhoneAuth"
 import OtpVerification from "./OtpVerification"
+import { wp, hp } from "../../responsive/responsive"
 
-const PhoneAuthWithOtp: React.FC<{ navigation: any }> = ({ navigation }) => {
+const PhoneAuthWithOtp = () => {
     const [currentScreen, setCurrentScreen] = useState<"phone" | "otp">("phone")
     const [phoneNumber, setPhoneNumber] = useState("")
+    const slideAnim = useRef(new Animated.Value(0)).current
+    const fadeAnim = useRef(new Animated.Value(1)).current
+
+    const animateTransition = (toValue: number) => {
+        Animated.parallel([
+            Animated.timing(slideAnim, {
+                toValue,
+                duration: 300,
+                useNativeDriver: true,
+            }),
+            Animated.timing(fadeAnim, {
+                toValue: toValue === 0 ? 1 : 0,
+                duration: 300,
+                useNativeDriver: true,
+            }),
+        ]).start()
+    }
 
     const handleContinue = useCallback((phone: string) => {
-        // Here you would typically call your authentication service to send the OTP
-        // For example: auth.sendOtp(phone)
         setPhoneNumber(phone)
-        setCurrentScreen("otp")
-
-        // Mock implementation
-        console.log(`Sending OTP to ${phone}`)
+        animateTransition(1)
+        setTimeout(() => {
+            setCurrentScreen("otp")
+            animateTransition(0)
+        }, 300)
     }, [])
 
     const handleVerificationComplete = useCallback((code: string) => {
@@ -37,21 +54,40 @@ const PhoneAuthWithOtp: React.FC<{ navigation: any }> = ({ navigation }) => {
     }, [phoneNumber])
 
     const handleGoBack = useCallback(() => {
-        setCurrentScreen("phone")
+        animateTransition(1)
+        setTimeout(() => {
+            setCurrentScreen("phone")
+            animateTransition(0)
+        }, 300)
     }, [])
 
     return (
         <View style={styles.container}>
-            {currentScreen === "phone" ? (
-                <PhoneAuth handleContinue={handleContinue} />
-            ) : (
-                <OtpVerification
-                    phoneNumber={phoneNumber}
-                    onVerificationComplete={handleVerificationComplete}
-                    onResendCode={handleResendCode}
-                    onGoBack={handleGoBack}
-                />
-            )}
+            <Animated.View
+                style={[
+                    styles.screenContainer,
+                    {
+                        transform: [{
+                            translateX: slideAnim.interpolate({
+                                inputRange: [0, 1],
+                                outputRange: [0, -wp(10)]
+                            })
+                        }],
+                        opacity: fadeAnim
+                    }
+                ]}
+            >
+                {currentScreen === "phone" ? (
+                    <PhoneAuth handleContinue={handleContinue} />
+                ) : (
+                    <OtpVerification
+                        phoneNumber={phoneNumber}
+                        onVerificationComplete={handleVerificationComplete}
+                        onResendCode={handleResendCode}
+                        onGoBack={handleGoBack}
+                    />
+                )}
+            </Animated.View>
         </View>
     )
 }
@@ -60,6 +96,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#fff",
+        overflow: 'hidden',
+    },
+    screenContainer: {
+        flex: 1,
+        width: '100%',
     },
 })
 
