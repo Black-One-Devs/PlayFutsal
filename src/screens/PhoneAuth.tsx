@@ -74,7 +74,7 @@ const PhoneAuth = ({ handleContinue }: PhoneAuthProps) => {
             >
                 <View style={styles.contentContainer}>
                     <View style={styles.closeIconContainer}>
-                        <TouchableOpacity>
+                        <TouchableOpacity >
                             <Ionicons name="close" size={35} color="black" />
                         </TouchableOpacity>
                     </View>
@@ -117,8 +117,8 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     closeIconContainer: {
-        width: '100%',
-        marginBottom: 20
+        marginBottom: 20,
+        alignSelf:'flex-start',
     },
     contentContainer: {
         flex: 1,

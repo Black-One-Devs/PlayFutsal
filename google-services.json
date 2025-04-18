@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "889607647557",
+    "project_id": "playfutsal-9d3cc",
+    "storage_bucket": "playfutsal-9d3cc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:889607647557:android:e3f2fe06f66b5f68044e2c",
+        "android_client_info": {
+          "package_name": "com.blackonedevs.PlayFutsal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAj5y1MW8X9MBg0K5KdyJYax0qrN9SvUx4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
