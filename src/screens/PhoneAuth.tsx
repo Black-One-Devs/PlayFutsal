@@ -13,6 +13,8 @@ import Button from "../components/authentication/Button"
 import InputField from "../components/authentication/InputField"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { wp, hp, fontSize } from "../../responsive/responsive"
+import { Ionicons } from '@expo/vector-icons';
+import { TouchableOpacity } from "react-native-gesture-handler"
 
 interface PhoneAuthProps {
     handleContinue: (phone: string) => void;
@@ -21,6 +23,21 @@ interface PhoneAuthProps {
 const PhoneAuth = ({ handleContinue }: PhoneAuthProps) => {
     const [isKeyboardVisible, setKeyboardVisible] = useState(false)
     const [phoneNumber, setPhoneNumber] = useState("")
+    const [isValidPhone, setIsValidPhone] = useState(false)
+
+    const validatePhoneNumber = (number: string) => {
+        // Remove any non-digit characters
+        const cleanNumber = number.replace(/\D/g, '')
+
+        // Check if the number starts with 98 or 97 and has exactly 10 digits
+        const isValid = /^(98|97)\d{8}$/.test(cleanNumber)
+        setIsValidPhone(isValid)
+    }
+
+    const handlePhoneChange = (text: string) => {
+        setPhoneNumber(text)
+        validatePhoneNumber(text)
+    }
 
     const handlePhoneSubmit = () => {
         Keyboard.dismiss()
@@ -56,18 +73,25 @@ const PhoneAuth = ({ handleContinue }: PhoneAuthProps) => {
                 keyboardVerticalOffset={Platform.OS === "ios" ? hp(10) : 0}
             >
                 <View style={styles.contentContainer}>
+                    <View style={styles.closeIconContainer}>
+                        <TouchableOpacity>
+                            <Ionicons name="close" size={35} color="black" />
+                        </TouchableOpacity>
+                    </View>
                     <View style={styles.headerContainer}>
                         <Text style={styles.title}>Let's get you started.</Text>
                         <Text style={styles.subtitle}>Enter your phone number to continue.</Text>
                     </View>
                     <InputField
                         value={phoneNumber}
-                        onChangeText={setPhoneNumber}
+                        onChangeText={handlePhoneChange}
+                        keyboardType="phone-pad"
                     />
 
                     <Button
                         title='Continue'
                         handleContinue={handlePhoneSubmit}
+                        disabled={!isValidPhone}
                     />
 
                 </View>
@@ -92,11 +116,15 @@ const styles = StyleSheet.create({
     keyboardAvoidingView: {
         flex: 1,
     },
+    closeIconContainer: {
+        width: '100%',
+        marginBottom: 20
+    },
     contentContainer: {
         flex: 1,
         paddingHorizontal: wp(20),
         justifyContent: "flex-start",
-        marginTop: hp(60)
+        marginTop: hp(10)
     },
     headerContainer: {
         marginBottom: hp(20),

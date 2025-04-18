@@ -1,13 +1,14 @@
-import { StyleSheet, Text, TextInput, View } from 'react-native'
+import { StyleSheet, Text, TextInput, View, KeyboardTypeOptions } from 'react-native'
 import React from 'react'
 import { wp, hp, fontSize } from '../../../responsive/responsive'
 
 interface InputFieldProps {
     value: string;
     onChangeText: (text: string) => void;
+    keyboardType?: KeyboardTypeOptions;
 }
 
-const InputField = ({ value, onChangeText }: InputFieldProps) => {
+const InputField = ({ value, onChangeText, keyboardType = "phone-pad" }: InputFieldProps) => {
     return (
         <View style={styles.inputContainer}>
             <View style={styles.countryCodeContainer}>
@@ -16,7 +17,7 @@ const InputField = ({ value, onChangeText }: InputFieldProps) => {
             <TextInput
                 style={styles.input}
                 placeholder="Enter your phone number"
-                keyboardType="phone-pad"
+                keyboardType={keyboardType}
                 value={value}
                 onChangeText={onChangeText}
                 selectionColor={'black'}

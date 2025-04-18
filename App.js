@@ -17,7 +17,6 @@ const AppContent = () => {
         exo2Regular: require("./assets/fonts/Exo2-Regular.ttf"),
         exo2SemiBold: require("./assets/fonts/Exo2-SemiBold.ttf"),
         exo2Bold: require("./assets/fonts/Exo2-Bold.ttf"),
-
     });
     useEffect(() => {
         if (loaded || error) {
