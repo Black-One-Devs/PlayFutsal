@@ -6,13 +6,18 @@ import { wp, hp, fontSize } from '../../../responsive/responsive'
 interface ButtonProps {
     title: string;
     handleContinue: () => void;
+    disabled?: boolean;
 }
 
 // Using React.memo to create a pure component that only re-renders when props change
-const Button = memo(({ title, handleContinue }: ButtonProps) => {
+const Button = memo(({ title, handleContinue, disabled = false }: ButtonProps) => {
     return (
-        <TouchableOpacity style={styles.continueButton} onPress={handleContinue}>
-            <Text style={styles.continueButtonText}>{title}</Text>
+        <TouchableOpacity
+            style={[styles.continueButton, disabled && styles.disabledButton]}
+            onPress={handleContinue}
+            disabled={disabled}
+        >
+            <Text style={[styles.continueButtonText, disabled && styles.disabledButtonText]}>{title}</Text>
         </TouchableOpacity>
     )
 })
@@ -27,12 +32,18 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         marginTop: hp(20),
-        width:'100%'
+        width: '100%'
+    },
+    disabledButton: {
+        backgroundColor: "#CBD5E1",
     },
     continueButtonText: {
         color: "#FFFFFF",
         fontSize: fontSize(16),
         fontFamily: 'exo2Bold'
+    },
+    disabledButtonText: {
+        color: "#64748B",
     },
 })
 
